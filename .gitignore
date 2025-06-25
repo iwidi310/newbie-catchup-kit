@@ -1,0 +1,5 @@
+# Ignore environment variable files
+.env
+.venv
+**/__pycache__/
+*.py[cod]

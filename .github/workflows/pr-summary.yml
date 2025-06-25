@@ -1,0 +1,45 @@
+name: PR summary by Codex
+
+on:
+  pull_request_target:
+    types: [opened]   # PR が作成された瞬間にだけ走らせる
+
+jobs:
+  pr-summary-by-codex:
+    runs-on: ubuntu-latest
+
+    # PR のコードは読むだけ、コメントは書くのでこれで十分
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      # PR の head ブランチ側をチェックアウト
+      - name: Checkout head branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'latest'
+
+      - name: Summarize diff & comment
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GITHUB_TOKEN:  ${{ secrets.GITHUB_TOKEN }}
+          PR_URL:        ${{ github.event.pull_request.html_url }}
+          PR_NUMBER:     ${{ github.event.number }}
+        run: |
+          npm install -g @openai/codex
+
+          # PR の差分を取得
+          gh pr diff ${PR_NUMBER} > pr-diff.txt
+
+          # Codex で日本語要約を生成し、ファイルに保存
+          codex -m o4-mini -a auto-edit --quiet \
+            "pr-diff.txt から更新差分を日本語で要約して。変更があったファイルの内容を確認して。プルリクエストとして要約内容を codex-summary.md に保存して。"
+
+          # 生成結果を PR にコメントとして投稿
+          gh pr comment --body-file codex-summary.md "${PR_URL}"
