@@ -9,7 +9,7 @@
 ### TARGET_FUNCTION
 
 ```
-OMM::processNewsData
+任意の関数
 ```
 
 ---
