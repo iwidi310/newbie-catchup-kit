@@ -19,7 +19,7 @@ db = Chroma(collection_name="code_index", embedding_function=embedder, persist_d
 # ベクトル検索用retrieverを取得 (上位k件を返す)
 retriever = db.as_retriever(search_kwargs={"k": 8})
 # LLM(ChatOpenAI)の初期化
-llm = ChatOpenAI(model="gpt-4o", temperature=0.2)
+llm = ChatOpenAI(model="gpt-4.1", temperature=0.2)
 # RetrievalQAチェーンの構築
 qa_chain = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=retriever)
 
