@@ -38,7 +38,7 @@
 
 ## 1. 前提条件 (Prerequisites)
 - **OS**: Windows 10/11, Ubuntu 20.04 以上 推奨
-- **Python**: 3.8 以上
+- **Python**: 3.11
 - **必須ツール**:
 -   - Git
 -   - PowerShell (Windowsネイティブの場合)
@@ -69,7 +69,7 @@ cd sample_rag_repo
 cp .env.example .env
 
 # 3. Python仮想環境を作成・有効化
-python -m venv .venv
+python -3.11 -m venv .venv
 source .venv/bin/activate  # Windows PowerShell: .\.venv\Scripts\Activate.ps1
 
 # 4. 依存ライブラリをインストール
