@@ -53,7 +53,7 @@ assert REPO_PATH.exists(), f"Repository path {REPO_PATH} does not exist"  # リ�
 
 """OpenAI埋め込みモデルおよびChroma設定"""
 # OpenAI埋め込みモデルの初期化
-embedder = OpenAIEmbeddings(model="text-embedding-3-small", dimensions=1536)
+embedder = OpenAIEmbeddings(model="text-embedding-3-large", dimensions=1536)
 # 埋め込みAPIの1リクエストあたりの最大トークン数制限（OpenAI上限: 300,000トークン）
 MAX_TOKENS_PER_BATCH = 300_000
 
