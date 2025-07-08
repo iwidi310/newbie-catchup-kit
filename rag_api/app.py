@@ -12,7 +12,7 @@ from langchain.chains import RetrievalQA
 app = FastAPI(title="Sample RAG API")
 
 # 埋め込みモデル(OpenAIEmbeddings)の初期化
-embedder = OpenAIEmbeddings(model="text-embedding-3-small", dimensions=1536)
+embedder = OpenAIEmbeddings(model="text-embedding-3-large", dimensions=1536)
 
 # Chromaベクターストアの読み込み
 db = Chroma(collection_name="code_index", embedding_function=embedder, persist_directory="code_index")
