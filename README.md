@@ -61,9 +61,14 @@ flowchart LR
 
 ## 3. クイックスタート (Quick Start)
 ```bash
-# 1. リポジトリをクローン
+# 1. gitリポジトリの準備
+# 1.1 リモートリポジトリが対象の場合
 git clone https://.../sample_rag_repo.git
 cd sample_rag_repo
+
+# 1.2 ローカルの非gitリポジトリディレクトリが対象の場合
+git init # 対象ディレクトリ直下で
+git add .
 
 # 2. .envファイルをコピーし、環境変数を設定
 cp .env.example .env
