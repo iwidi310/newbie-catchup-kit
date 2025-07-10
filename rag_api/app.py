@@ -6,7 +6,7 @@ FastAPI app providing a simple RAG endpoint.
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
-from langchain_community.vectorstores import Chroma
+from langchain_chroma import Chroma
 from langchain.chains import RetrievalQA
 from dotenv import load_dotenv
 import os
