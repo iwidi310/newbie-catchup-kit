@@ -17,7 +17,7 @@ embedder = OpenAIEmbeddings(model="text-embedding-3-large", dimensions=1536)
 # Chromaベクターストアの読み込み
 db = Chroma(collection_name="code_index", embedding_function=embedder, persist_directory="code_index")
 # ベクトル検索用retrieverを取得 (上位k件を返す)
-retriever = db.as_retriever(search_kwargs={"k": 8})
+retriever = db.as_retriever(search_kwargs={"k": 200})
 # LLM(ChatOpenAI)の初期化
 llm = ChatOpenAI(model="gpt-4.1", temperature=0.2)
 # RetrievalQAチェーンの構築
