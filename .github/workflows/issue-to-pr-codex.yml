@@ -50,6 +50,10 @@ jobs:
             最後に`npm ci && npm run build`を実行してエラーが無いことを確認してください。.git 直下の隠しファイルは**絶対に編集しない**でください。
             END_PROMPT
 
+          echo "::group::Codex Prompt"
+          cat /tmp/prompt.txt
+          echo "::endgroup::"
+
           codex exec --full-auto --yes -q "$(cat /tmp/prompt.txt)"
 
           # Codex が commit してない場合の保険
