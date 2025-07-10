@@ -176,10 +176,10 @@ curl -X 'POST' \
 - `requirements.txt`の更新後は`pip install -r requirements.txt`を再実行
 
 ## 11. FAQ
-**Q: なぜローカルLLMではないのか?**  
+**Q: なぜローカルLLMではないのか?**
 A: OpenAI API利用により高品質な埋め込みと生成を低レイテンシで利用可能。
 
-**Q: モデルをカスタマイズできるか?**  
+**Q: モデルをカスタマイズできるか?**
 A: EmbeddingモデルはOpenAI Tuning対応を検討中。Local LLM統合は現状非対応。
 
 ## 12. RAG 環境のセットアップ & 配布手順
@@ -236,10 +236,10 @@ tiktoken>=0.4.0
 ```md
 ## 初期セットアップ
 
-```bash  
-git clone <this-repo>  
-cp .env.example .env  
-uvicorn rag_api.app:app --reload  
+```bash
+git clone <this-repo>
+cp .env.example .env
+uvicorn rag_api.app:app --reload
 ```
 
 > ※ `code_index/` が含まれているため、初回インデックス作成は不要です。
@@ -274,14 +274,14 @@ git add .gitattributes
 以上の手順に従えば、再インデックス不要でチームメンバーが即座にRAGを活用できます。
 
 ## 13. コントリビューションガイド (Contribution)
-1. Fork & Clone後、`feature/xxx`ブランチを作成  
-2. 単体テスト: `pytest tests/`  
-3. Linter: `flake8`  
+1. Fork & Clone後、`feature/xxx`ブランチを作成
+2. 単体テスト: `pytest tests/`
+3. Linter: `flake8`
 4. PR時は概要と動作確認手順を明示
 
 ## 14. 参考資料リンク集 (References)
-- [ChromaDB ドキュメント](https://docs.trychroma.com/)  
-- [OpenAI API リファレンス](https://platform.openai.com/docs)  
+- [ChromaDB ドキュメント](https://docs.trychroma.com/)
+- [OpenAI API リファレンス](https://platform.openai.com/docs)
 - [LangChain ドキュメント](https://langchain.readthedocs.io/)
 
 ---
