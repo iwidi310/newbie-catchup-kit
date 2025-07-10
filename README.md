@@ -131,30 +131,21 @@ EXTENSIONS=py,js,ts,go,cpp
 ### エンドポイント例
 | メソッド | パス           | 説明                      |
 | -------- | -------------- | ------------------------- |
-| GET      | `/health`      | ヘルスチェック           |
-| POST     | `/query`       | RAGクエリ実行            |
+| POST     | `/ask`       | RAGクエリ実行            |
 
 ### cURL 例
 ```bash
-curl -X POST http://localhost:8000/query \
-     -H 'Content-Type: application/json' \
-     -d '{"query": "関数定義の取得方法を教えて"}'
+curl -X 'POST' \
+  'http://localhost:8000/ask?question=OMM.cpp%E3%81%AE%E5%87%A6%E7%90%86%E6%A6%82%E8%A6%81%E3%82%92%E6%95%99%E3%81%88%E3%81%A6' \
+  -H 'accept: application/json' \
+  -d ''
 ```
 
 ### リクエスト/レスポンス例
 ```json
 {
-  "query": "関数定義の取得方法を教えて"
-}
-```
-```json
-{
-  "result": [
-    {
-      "source": "example.py",
-      "code": "def example():\n    pass"
-    }
-  ]
+  "query": "[関数A]の処理概要を教えて",
+  "result": "はい、[関数A]の処理概要を分かりやすく説明します。..."
 }
 ```
 
