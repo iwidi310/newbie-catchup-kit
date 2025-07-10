@@ -6,7 +6,7 @@ FastAPI app providing a simple RAG endpoint.
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
-from langchain.vectorstores import Chroma
+from langchain_community.vectorstores import Chroma
 from langchain.chains import RetrievalQA
 from dotenv import load_dotenv
 import os
@@ -52,3 +52,7 @@ def ask(question: str):
     result = qa_chain({"query": question})
     # charset=utf-8 を明示的に追加
     return JSONResponse(content=result, headers={"Content-Type": "application/json; charset=utf-8"})
+
+@app.get("/health")
+async def health():
+    return {"status": "ok"}
