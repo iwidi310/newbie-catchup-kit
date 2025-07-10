@@ -45,7 +45,7 @@ jobs:
           DIFF_FILE=pr.diff
           gh pr diff ${{ github.event.pull_request.number }} > "$DIFF_FILE"
 
-          codex --auto-edit \
+          codex --full-auto \
             "次のレビュー指摘を全て反映してコードを修正してください。**dotfiles (.git* など) は変更禁止**。\n\n--- レビュー指摘 ---\n$(cat $FEEDBACK_FILE)\n\n--- 現在のPR差分 ---\n$(cat $DIFF_FILE)"
 
           rm pr.diff review.md
