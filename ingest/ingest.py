@@ -50,10 +50,18 @@ def _split_document(doc: Document, encoder, max_tokens: int):
 load_dotenv()  # .envファイルから環境変数を読み込む
 REPO_PATH = pathlib.Path(os.getenv('CODE_REPO_PATH', '.')).resolve()  # 対象Gitリポジトリのパス取得（デフォルトはカレントディレクトリ）
 assert REPO_PATH.exists(), f"Repository path {REPO_PATH} does not exist"  # リポジトリパスの存在確認
+print("[INFO] Using repository path:", REPO_PATH)
 
 """OpenAI埋め込みモデルおよびChroma設定"""
 # OpenAI埋め込みモデルの初期化
-embedder = OpenAIEmbeddings(model="text-embedding-3-large", dimensions=1536)
+EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "text-embedding-3-large")
+try:
+    EMBEDDING_DIMENSIONS = int(os.getenv("EMBEDDING_DIMENSIONS", 1536))
+except (TypeError, ValueError):
+    print("[ERROR] EMBEDDING_DIMENSIONS must be an integer. Using default value 1536.")
+    EMBEDDING_DIMENSIONS = 1536
+embedder = OpenAIEmbeddings(model=EMBEDDING_MODEL, dimensions=EMBEDDING_DIMENSIONS)
+print("[INFO] Using OpenAI Embeddings model:", EMBEDDING_MODEL + f" (dimensions: {EMBEDDING_DIMENSIONS})")
 # 埋め込みAPIの1リクエストあたりの最大トークン数制限（OpenAI上限: 300,000トークン）
 MAX_TOKENS_PER_BATCH = 300_000
 
@@ -63,13 +71,15 @@ EXTENSIONS = tuple(
     e if e.startswith('.') else f'.{e}'
     for e in (s.strip() for s in exts_env.split(',') if s.strip())
 )
-print(f"[DEBUG] EXTENSIONS: {EXTENSIONS}")
+print(f"[INFO] EXTENSIONS: {EXTENSIONS}")
 
-"""Chromaベクターストアの初期化"""
+# Chromaベクターストアの初期化
+CODE_INDEX_DIR = os.getenv("CODE_INDEX_DIR", "code_index")
+COLLECTION_NAME = os.getenv("COLLECTION_NAME", "code_index")
 db = Chroma(
-    collection_name="code_index",
+    collection_name=COLLECTION_NAME,
     embedding_function=embedder,
-    persist_directory="code_index"
+    persist_directory=CODE_INDEX_DIR
 )
 
 def ingest():

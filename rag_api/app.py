@@ -4,18 +4,32 @@ FastAPI app providing a simple RAG endpoint.
 このモジュールは、FastAPIを利用して簡易的なRAG (Retrieval-Augmented Generation) エンドポイント(/ask)を提供します。
 """
 from fastapi import FastAPI
+from fastapi.responses import JSONResponse
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain_community.vectorstores import Chroma
 from langchain.chains import RetrievalQA
+from dotenv import load_dotenv
+import os
+
+load_dotenv()  # .envファイルから環境変数を読み込む
 
 # FastAPIアプリケーションの初期化
 app = FastAPI(title="Sample RAG API")
 
 # 埋め込みモデル(OpenAIEmbeddings)の初期化
-embedder = OpenAIEmbeddings(model="text-embedding-3-large", dimensions=1536)
+EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "text-embedding-3-large")
+try:
+    EMBEDDING_DIMENSIONS = int(os.getenv("EMBEDDING_DIMENSIONS", 1536))
+except (TypeError, ValueError):
+    print("[ERROR] EMBEDDING_DIMENSIONS must be an integer. Using default value 1536.")
+    EMBEDDING_DIMENSIONS = 1536
+embedder = OpenAIEmbeddings(model=EMBEDDING_MODEL, dimensions=EMBEDDING_DIMENSIONS)
+print("[INFO] Using OpenAI Embeddings model:", EMBEDDING_MODEL + f" (dimensions: {EMBEDDING_DIMENSIONS})")
 
 # Chromaベクターストアの読み込み
-db = Chroma(collection_name="code_index", embedding_function=embedder, persist_directory="code_index")
+CODE_INDEX_DIR = os.getenv("CODE_INDEX_DIR", "code_index")
+COLLECTION_NAME = os.getenv("COLLECTION_NAME", "code_index")
+db = Chroma(collection_name=COLLECTION_NAME, embedding_function=embedder, persist_directory=CODE_INDEX_DIR)
 # ベクトル検索用retrieverを取得 (上位k件を返す)
 retriever = db.as_retriever(search_kwargs={"k": 200})
 # LLM(ChatOpenAI)の初期化
@@ -36,7 +50,8 @@ def ask(question: str):
     """
     # QAチェーンを実行して結果を取得
     result = qa_chain({"query": question})
-    return result
+    # charset=utf-8 を明示的に追加
+    return JSONResponse(content=result, headers={"Content-Type": "application/json; charset=utf-8"})
 
 @app.get("/health")
 async def health():

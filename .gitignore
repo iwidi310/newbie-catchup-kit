@@ -3,4 +3,4 @@
 .venv
 **/__pycache__/
 *.py[cod]
-./code_index/*
+code_index/

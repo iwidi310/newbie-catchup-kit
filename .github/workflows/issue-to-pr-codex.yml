@@ -43,18 +43,14 @@ jobs:
           rm -f package-lock.json || true
 
           cat > /tmp/prompt.txt <<'END_PROMPT'
-            ${{ github.event.issue.title }}
+          ${{ github.event.issue.title }}
 
-            ${{ github.event.issue.body }}
+          ${{ github.event.issue.body }}
 
-            最後に`npm ci && npm run build`を実行してエラーが無いことを確認してください。.git 直下の隠しファイルは**絶対に編集しない**でください。
-            END_PROMPT
+          最後に `npm ci && npm run build` を実行し、エラーが無いことを確認してください。.git 直下の隠しファイルは **絶対に編集しない** でください。
+          END_PROMPT
 
-          echo "::group::Codex Prompt"
-          cat /tmp/prompt.txt
-          echo "::endgroup::"
-
-          codex exec --full-auto --yes -q "$(cat /tmp/prompt.txt)"
+          codex exec --full-auto "$(cat /tmp/prompt.txt)"
 
           # Codex が commit してない場合の保険
           if [[ -n $(git status --porcelain) ]]; then
