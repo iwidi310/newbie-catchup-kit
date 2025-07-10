@@ -75,7 +75,8 @@ cp .env.example .env
 
 # 3. Python仮想環境を作成・有効化
 python -3.11 -m venv .venv
-source .venv/bin/activate  # Windows PowerShell: .\.venv\Scripts\Activate.ps1
+source .venv/bin/activate
+# Windows PowerShellの場合: .\.venv\Scripts\Activate.ps1
 
 # 4. 依存ライブラリをインストール
 pip install --upgrade pip
@@ -85,8 +86,11 @@ pip install -r requirements.txt
 python -m ingest.ingest
 
 # 6. サーバーを起動
-source .venv/bin/activate  # Windows PowerShell: .\.venv\Scripts\Activate.ps1
+source .venv/bin/activate
 uvicorn rag_api.app:app --host 0.0.0.0 --port 8000
+# Windows PowerShellの場合:
+# .\.venv\Scripts\Activate.ps1
+# .\scripts\run_server.ps1
 ```
 
 ## 4. 詳細セットアップ手順 (Detailed Setup)
@@ -134,7 +138,12 @@ EXTENSIONS=py,js,ts,go,cpp
 | GET      | `/health`      | ヘルスチェック           |
 | POST     | `/query`       | RAGクエリ実行            |
 
+- `http://localhost:8000/docs`にアクセスするとブラウザ経由でAPI実行ができる。
+
 ### cURL 例
+```bash
+curl -X GET http://localhost:8000/health
+```
 ```bash
 curl -X POST http://localhost:8000/query \
      -H 'Content-Type: application/json' \

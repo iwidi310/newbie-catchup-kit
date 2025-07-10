@@ -5,7 +5,7 @@ FastAPI app providing a simple RAG endpoint.
 """
 from fastapi import FastAPI
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
-from langchain.vectorstores import Chroma
+from langchain_community.vectorstores import Chroma
 from langchain.chains import RetrievalQA
 
 # FastAPIアプリケーションの初期化
@@ -37,3 +37,7 @@ def ask(question: str):
     # QAチェーンを実行して結果を取得
     result = qa_chain({"query": question})
     return result
+
+@app.get("/health")
+async def health():
+    return {"status": "ok"}
