@@ -63,6 +63,7 @@ EXTENSIONS = tuple(
     e if e.startswith('.') else f'.{e}'
     for e in (s.strip() for s in exts_env.split(',') if s.strip())
 )
+print(f"[DEBUG] EXTENSIONS: {EXTENSIONS}")
 
 """Chromaベクターストアの初期化"""
 db = Chroma(
