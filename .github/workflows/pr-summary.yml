@@ -39,7 +39,8 @@ jobs:
 
           # Codex で日本語要約を生成し、ファイルに保存
           codex -m o4-mini --full-auto \
-            "pr-diff.txt から更新差分を日本語で要約して。変更があったファイルの内容を確認して。プルリクエストとして要約内容を codex-summary.md に保存して。"
+            "pr-diff.txt から更新差分を日本語で要約して。変更があったファイルの内容を確認して。日本語で端的に要約せよ。" \
+            < pr-diff.txt > codex-summary.md
 
           # 生成結果を PR にコメントとして投稿
           gh pr comment --body-file codex-summary.md "${PR_URL}"
