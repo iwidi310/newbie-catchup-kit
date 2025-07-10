@@ -4,6 +4,7 @@ FastAPI app providing a simple RAG endpoint.
 このモジュールは、FastAPIを利用して簡易的なRAG (Retrieval-Augmented Generation) エンドポイント(/ask)を提供します。
 """
 from fastapi import FastAPI
+from fastapi.responses import JSONResponse
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain.vectorstores import Chroma
 from langchain.chains import RetrievalQA
@@ -49,4 +50,5 @@ def ask(question: str):
     """
     # QAチェーンを実行して結果を取得
     result = qa_chain({"query": question})
-    return result
+    # charset=utf-8 を明示的に追加
+    return JSONResponse(content=result, headers={"Content-Type": "application/json; charset=utf-8"})
